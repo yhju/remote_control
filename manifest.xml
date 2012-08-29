@@ -12,6 +12,7 @@
   <url>http://ros.org/wiki/pyoj</url>
   <depend package="rospy"/>
   <depend package="joy"/>
+  <depend package="sensor_msgs"/> <!-- for Joy.msg -->
 
 </package>
 
