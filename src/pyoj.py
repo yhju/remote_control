@@ -1,10 +1,14 @@
 #!/usr/bin/env python
-import roslib
-roslib.load_manifest('pyoj')
+import roslib; roslib.load_manifest('pyoj')
+
 import rospy
-from sensor_msgs.msg import Joy
+import tf
+
 import SocketServer
 import math
+
+from sensor_msgs.msg import Joy
+from geometry_msgs.msg import Twist
 
 PORTNO = 10552
 
@@ -32,8 +36,15 @@ class handler(SocketServer.DatagramRequestHandler):
         
         k = 1 / math.cos(math.radians(60))
         pub.publish(Joy(axes=[1.5*k*z, 0.0, 0.0, k*x], buttons=[1] ))
+        #pub_tf.sendTransform((x,y,z),tf.transformations.quaternion_from_euler(0,0,0),rospy.Time.now(), "acc_link", "base_link")
+        cmd = Twist()
+        cmd.linear.x=-k*z/2
+        cmd.angular.z=k*x/2
+        pub_cv.publish(cmd)
 
 pub = rospy.Publisher('joy', Joy)
+#pub_tf = tf.TransformBroadcaster()
+pub_cv = rospy.Publisher('cmd_vel', Twist)
 rospy.init_node('pyoj', anonymous=True)
 s = SocketServer.UDPServer(('',PORTNO), handler)
 print "Awaiting UDP messages on port %d" % PORTNO
