@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import roslib; roslib.load_manifest('pyoj')
+import roslib; roslib.load_manifest('remote_control')
 
 import rospy
 import tf
