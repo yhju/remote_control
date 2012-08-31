@@ -38,8 +38,8 @@ class handler(SocketServer.DatagramRequestHandler):
         pub.publish(Joy(axes=[1.5*k*z, 0.0, 0.0, k*x], buttons=[1] ))
         #pub_tf.sendTransform((x,y,z),tf.transformations.quaternion_from_euler(0,0,0),rospy.Time.now(), "acc_link", "base_link")
         cmd = Twist()
-        cmd.linear.x=-k*z/2
-        cmd.angular.z=k*x/2
+        cmd.linear.x=-k*z/5
+        cmd.angular.z=k*x
         pub_cv.publish(cmd)
 
 pub = rospy.Publisher('joy', Joy)
